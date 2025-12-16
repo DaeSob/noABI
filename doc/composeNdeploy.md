@@ -12,29 +12,29 @@
 
 **1. 프로젝트 디렉토리 예시**
 ```bash
-noAbi/cli/
+noAbi/
 ├─ bin/
 │  └─ examples/
 |     └─ sample-1-tokens/
 |       └─ contracts/
 |         └─ build/
-|           └─ package-tokens-solc-output.json   ← Compile 결과
+|           └─ package-token-solc-output.json   ← Compile 결과
 ├─ examples/
 │  ├─ sample-1-tokens/
 |  │   └─ contracts/                              ← Normalize Path
 |  │      ├─ build/
-│  │      |  └─ package-tokens.sol                ← Solidity Package Entry Point
+│  │      |  └─ package-token.sol                ← Solidity Package Entry Point
 │  │      └─ src
 |  |         ├─ erc20.sol
 |  |         └─ erc721.sol
-|  └─ sample-2-/
+|  └─ ...
 ├─ node_modules/
 └─ ...
 ```
 
 | 디렉토리                | 설명                        |
 | ------------------- | ------------------------- |
-| `sample-1-token/contracts/build/*`  | 패키지 단위 Entry Point 파일 위치  |
+| `sample-1-tokens/contracts/build/*`  | 패키지 단위 Entry Point 파일 위치  |
 | `src/*`                             | 실제 Contract 구현 코드         |
 | `node_modules`                      | 외부 Solidity 패키지 및 타입 정의   |
 | `bin`                               | Compile 결과 JSON Output 저장 |
@@ -52,7 +52,7 @@ import '../src/erc721.sol';
 - VSCode에서 저장 후 Solidity: Compile Contract 실행
 
 **3. Compile 결과**   
-package-tokens-solc-output.json 생성
+package-token-solc-output.json 생성
 - 포함 정보:
   - abi
   - bytecode / deployedBytecode
@@ -72,12 +72,12 @@ package-tokens-solc-output.json 생성
       {
         "source": {
           "normalize": {
-            "path": "c:/workspace/noAbi/cli/examples/sample-1-tokens/contracts"
+            "path": "c:/workspace/noAbi/examples/sample-1-tokens/contracts"
           },  
-          "entry": "c:/workspace/noAbi/cli/examples/sample-1-tokens/contracts/build/package-token.sol"
+          "entry": "c:/workspace/noAbi/examples/sample-1-tokens/contracts/build/package-token.sol"
         },
         "artifacts": {
-           "solcOutput": "c:/workspace/noAbi/cli/bin/examples/sample-1-tokens/contracts/build/package-token-solc-output.json"
+           "solcOutput": "c:/workspace/noAbi/bin/examples/sample-1-tokens/contracts/build/package-token-solc-output.json"
         },
         "contracts": [
           {
@@ -107,7 +107,7 @@ package-tokens-solc-output.json 생성
 - Solidity Package Entry Point와 solc-output JSON을 기반으로 패키지 단위 Contract 정보를 분석하고, 배포 가능한 Build Artifact를 생성.
 - 핵심 입력:   
   - Solidity Package Entry Point (.sol)    
-  - solc-output JSON (package-tokens-solc-output.json)
+  - solc-output JSON (package-token-solc-output.json)
 - 처리 과정:
   - 패키지 내 모든 Contract 분석
   - Constructor 인자 매핑

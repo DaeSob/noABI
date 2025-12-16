@@ -1,0 +1,44 @@
+
+{
+  "chain-arb-sepolia": {
+    "rpc": "https://arbitrum-sepolia.drpc.org",
+    "custom": {
+      "baseChain": "mainnet",
+      "param": {
+        "name": "arbitrum-sepolia",
+        "networkId": 421614,
+        "chainId": 421614
+      },
+      "hardFork": "petersburg"
+    }
+  },
+  "chain-local-main": {
+    "rpc": "http://127.0.0.1:8545",
+    "blockCreationCycle": 1
+  },
+  "wallet-xen-test-0": {
+    "privKey": "0xf20837024666af0c3f6c1b3d9ce40d34337f60a88ab525b410bcd8f9b1080265"
+  },
+  "wallet-xen-keystore": {
+    "keyStore": "C:/workspace/daesob/cli/artifacts/keystores/b171fe0b0804651446a50344ae14e56596190bcf",
+    "description": "keystore 사용 시 passphrase 입력 필요, keyStore와 privKey 둘다 존재 한다면 keyStore를 우선 선택"
+  },  
+  "currentSet": {
+    "chain": "chain-local-main",
+    "wallet": "wallet-xen-test-0",
+    "description": "noABI 명령 실행 시 기본 chain과 기본 wallet"
+  },
+  "workspace": {    
+    "root": "c:/workspace/daesob/noAbi",
+    "output": {
+      "build": "./artifacts/build"
+    },
+    "logs": {
+      "deploy": "./logs/deploy"
+    },
+    "description": "CLI 산출물(로그, 빌드결과, compose output) 관리 루트"
+  },
+  "options": {
+    "multiline": true 
+  }
+}

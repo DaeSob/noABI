@@ -103,7 +103,7 @@ VSCode에서 직접 스마트 컨트랙트를 컴파일하고, 생성된 noABI �
     ```
 3. Extensions 검색창에 solidity 입력
 
-4. 검색 결과 목록에서 아래 확장 프로그램을 찾습니다:
+4. 검색 결과 목록에서 아래 확장 프로그램을 찾습니다:   
     Ethereum Solidity Language for Visual Studio Code by Juan Blanco   
     선택 후 Install 버튼을 클릭하여 설치합니다.
 

@@ -77,27 +77,27 @@ noABI는 다음을 목표로 합니다:
 
 **프로젝트 디렉토리 예시**
 ```bash
-noAbi/cli/
+noAbi/
 ├─ bin/
 │  └─ examples/
 |     └─ sample-1-tokens/
 |       └─ contracts/
 |         └─ build/
-|           └─ package-tokens-solc-output.json   ← Compile 결과
+|           └─ package-token-solc-output.json   ← Compile 결과
 ├─ examples/
 │  ├─ sample-1-tokens/
 |  │   └─ contracts/                              ← Normalize Path
 |  │      ├─ build/
-│  │      |  └─ package-tokens.sol                ← Solidity Package Entry Point
+│  │      |  └─ package-token.sol                ← Solidity Package Entry Point
 │  │      └─ src
 |  |         ├─ erc20.sol
 |  |         └─ erc721.sol
-|  └─ sample-2-/
+|  └─ ...
 ├─ node_modules/
 └─ ...
 ```
 
-**Entry Point 파일 예시 (package-tokens.sol)**
+**Entry Point 파일 예시 (package-token.sol)**
 ```solidity
 // SPDX-License-Identifier: MIT
 // XeN Contracts v0.6.0
@@ -111,9 +111,9 @@ import '../src/erc721.sol';
 ```json
 "source": {
   "normalize": {
-    "path": "c:/workspace/noAbi/cli/examples/sample-1-tokens/contracts"
+    "path": "c:/workspace/noAbi/examples/sample-1-tokens/contracts"
   },  
-  "entry": "c:/workspace/noAbi/cli/examples/sample-1-tokens/contracts/build/package-token.sol"
+  "entry": "c:/workspace/noAbi/examples/sample-1-tokens/contracts/build/package-token.sol"
 }
 ```
 
@@ -128,7 +128,7 @@ solc가 컴파일 후 생성한 Output 파일은 스마트 컨트랙트 배포 �
 **예시**
 ```json
 "artifacts": {
-  "solcOutput": "c:/workspace/noAbi/cli/bin/examples/sample-1-tokens/contracts/build/package-token-solc-output.json"
+  "solcOutput": "c:/workspace/noAbi/bin/examples/sample-1-tokens/contracts/build/package-token-solc-output.json"
 }
 ```
 
@@ -137,7 +137,7 @@ solc가 컴파일 후 생성한 Output 파일은 스마트 컨트랙트 배포 �
 ```json
 {
     "contracts": {
-        "c:/workspace/noAbi/cli/examples/sample-1-tokens/contracts/src/erc20.sol": {
+        "c:/workspace/noAbi/examples/sample-1-tokens/contracts/src/erc20.sol": {
             "CERC20": {
                 "abi": [...],
                 ...

@@ -1,0 +1,121 @@
+{
+  "collection": "tokens",
+  "build": {
+    "packages": [
+      {
+        "source": {
+          "normalize": {
+            "path": "c:/workspace/daesob/cli/examples/sample-1-tokens/contracts"
+          },
+          "entry": "c:/workspace/daesob/cli/examples/sample-1-tokens/contracts/build/package-token.sol",
+          "type": "solidity-package",
+          "description": {
+            "normalizedPath": "해당 source를 noABI 내부에서 식별하기 위해 project root 기준으로 정규화된 논리 경로입니다.",
+            "entry": "VSCode에서 빌드할 때 사용되는 Solidity 패키지의 엔트리 포인트 파일입니다. 이 파일을 기준으로 dependency graph가 생성되며 solc compile이 시작됩니다.",
+            "type": "해당 source가 어떤 형태의 패키지를 의미하는지 나타냅니다. solidity-package는 단일 Solidity entry 파일을 기준으로 묶은 패키지 구조를 의미합니다."
+          }
+        },
+        "artifacts": {
+          "solcOutput": "c:/workspace/daesob/cli/bin/examples/sample-1-tokens/contracts/build/package-token-solc-output.json",
+          "description": {
+            "solcOutput": "solc 또는 VSCode Solidity 플러그인이 빌드 후 생성한 표준 JSON output 파일 경로입니다. ABI, bytecode, deployedBytecode, function signatures 등이 포함되며 noABI 엔진은 이 파일을 기반으로 contract metadata를 자동 분석합니다."
+          }
+        },
+        "contracts": [
+          {
+            "name": "CERC20",
+            "alias": "noABI1",
+            "inputs": {
+              "desc": [
+                "contract name",
+                "contract symbol",
+                "decimal"
+              ],
+              "types": [
+                "string",
+                "string",
+                "uint256"
+              ],
+              "value": [
+                "noABI Token",
+                "NOAT",
+                "18"
+              ]
+            },
+            "returns": {
+              "varNames": [
+                "noAbitAddress"
+              ],
+              "txReceipts": [
+                "contractAddress"
+              ]
+            }
+          },
+          {
+            "name": "CERC20",
+            "alias": "noABI2",
+            "inputs": {
+              "desc": [
+                "contract name",
+                "contract symbol",
+                "decimal"
+              ],
+              "types": [
+                "string",
+                "string",
+                "uint256"
+              ],
+              "value": [
+                "noABI Token2",
+                "NOAT2",
+                "18"
+              ]
+            },
+            "returns": {
+              "varNames": [
+                "noAbit2Address"
+              ],
+              "txReceipts": [
+                "contractAddress"
+              ]
+            }
+          },
+          {
+            "name": "CERC721",
+            "inputs": {
+              "desc": [
+                "contract name",
+                "contract symbol",
+                "base uri",
+                "auto uri"
+              ],
+              "types": [
+                "string",
+                "string",
+                "string",
+                "bool"
+              ],
+              "value": [
+                "noABI Card",
+                "VIP",
+                "http://noabi.io",
+                "false"
+              ]
+            },
+            "returns": {
+              "varNames": [
+                "vipAddress"
+              ],
+              "txReceipts": [
+                "contractAddress"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "files": {
+    "manifest": "c:/workspace/daesob/noABI/artifacts/build/chain-local-main/tokens/output.obj"
+  }
+}

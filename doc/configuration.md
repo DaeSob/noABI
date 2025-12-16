@@ -166,5 +166,5 @@ CLI 실행 관련 옵션을 정의합니다.
 
 ---
 **문서 네비게이션**  
-[← 이전: Getting Started](gettingStarted.md) | [다음: Compose File →](composeFile.md)  
+[이전: Quick Example →](quickExample.md)   | [다음: Compose File →](composeFile.md)  
 [↑ 목차로 돌아가기](../README.md)

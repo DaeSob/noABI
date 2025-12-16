@@ -66,5 +66,5 @@ type 'help' to see available commands.
 
 ---
 **문서 네비게이션**  
-[← 이전: Installation](installation.md) | [다음: Configuration →](configuration.md)  
+[← 이전: Installation](installation.md) | [다음: Quick Example →](quickExam.md)  
 [↑ 목차로 돌아가기](../README.md)

@@ -86,6 +86,7 @@ Ethereum Solidity Language for Visual Studio Code by    Juan Blanco
 ### 시작하기
 - [Installation](doc/installation.md) - 설치 및 환경 구성
 - [Getting Started](doc/gettingStarted.md) - 빠른 시작 가이드
+- [Quick Example](doc/quickExam.md) - 빠른 예제 가이드
 
 ### 설정 및 구성
 - [Configuration](doc/configuration.md) - 설정 파일 작성 방법

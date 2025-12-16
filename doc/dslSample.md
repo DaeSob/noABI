@@ -64,7 +64,7 @@ echo (결과 출력)
 #### DSL CODE
 ```bash
 # ganache-cli -d -m xen -l 15000000 -h 0.0.0.0 -p 8545 --chainId 1338 -e 10000000 -g 15932629
-# sh ./artifacts/scripts/noAbi/sample/tokens.txt
+# sh ./examples/sample-1-tokens/dsl/tokens.txt
 
 set --output minimal
 
@@ -101,13 +101,13 @@ tokens.CERC20("${noAbitAddress}").name()
 tokens.CERC20("${noAbitAddress}").symbol()
   .then(symbol => {});
 
-
+# 연산 예제
 tokens.CERC20("${noAbitAddress}").balanceOf("${USER}")
   .then(balance => {
     varStore["inc"] = (Number(varStore["inc"]) + 1).toString();
   });
 
-
+# revert 예제
 tokens.CERC20("${noAbitAddress}").transfer("${zeroAddress}", "1000000")
   .then(balance => {})
   .catch(err => {
@@ -122,10 +122,10 @@ tokens.CERC20("${noAbitAddress}").balanceOf("${USER}")
 echo "----------------------------------------------------"
 echo "now: ${now}"
 echo "noAbi Address: ${noAbitAddress}"
-echo "total supply: ${totalSupply}"
 echo "name: ${name}"
-echo "name test: ${testRes}"
 echo "symbol: ${symbol}"
+echo "totol supply: ${totalSupply}"
+echo "name test: ${testRes}"
 echo "balance: ${balance}"
 echo "inc: ${inc}"
 echo "catch: ${catch}"

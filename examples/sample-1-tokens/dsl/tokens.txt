@@ -1,0 +1,82 @@
+# ganache-cli -d -m xen -l 15000000 -h 0.0.0.0 -p 8545 --chainId 1338 -e 10000000 -g 15932629
+# sh ./examples/sample-1-tokens/dsl/tokens.txt
+
+set --output minimal
+
+set --var {"inc": "0"}
+set --var {"zeroAddress": "0x0000000000000000000000000000000000000000" }
+
+###############################################################################################################
+# 0. legacy tokens
+# Collection Name: tokens
+# deploy로 실행 되어 import 된 collection은 초기화 되어 abi가 import 됩니다
+# 따라서 deploy 되기전 import 되어 있는 abi는 모두 사라지게 됩니다
+compose ./examples/sample-1-tokens/compose-files/compose_tokens.json
+deploy ./examples/sample-1-tokens/compose-files/compose_tokens.json
+
+toUtc => now
+
+getBalance ${USER} => ehtBalance
+
+tokens.CERC20("${noAbitAddress}").totalSupply()
+.then( 
+    totalSupply=>{}
+);
+
+tokens.CERC20("${noAbitAddress}").name()
+.then( 
+    name=>{
+        try{ 
+            const assert = require("assert");
+            assert.equal(name["0"], "noABI Token1", "Name should be 'noABI Token'");
+            console.log( "pass" );
+        }
+        catch (e) {
+            varStore["testRes"] = e.message;
+            console.log(e.message);
+        }
+    }
+);
+
+tokens.CERC20("${noAbitAddress}").symbol()
+.then( 
+    symbol=>{}
+);
+
+
+tokens.CERC20("${noAbitAddress}").balanceOf("${USER}")
+.then( 
+    balance=>{
+        varStore["inc"] = (Number(varStore["inc"]) + 1).toString();
+    }
+);
+
+
+tokens.CERC20("${noAbitAddress}").transfer("${zeroAddress}", "1000000")
+.then( 
+    balance=>{
+    }
+)
+.catch(
+    err => {
+         varStore["catch"] = err;
+    }
+);
+
+tokens.CERC20("${noAbitAddress}").balanceOf("${USER}")
+.then( 
+    balance=>{
+        varStore["inc"] = (Number(varStore["inc"]) + 1).toString();
+    }
+);
+
+echo "----------------------------------------------------"
+echo "now: ${now}"
+echo "noAbi Address: ${noAbitAddress}"
+echo "totol supply: ${totalSupply}"
+echo "name: ${name}"
+echo "name test: ${testRes}"
+echo "symbol: ${symbol}"
+echo "balance: ${balance}"
+echo "inc: ${inc}"
+echo "catch: ${catch}"

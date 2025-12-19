@@ -41,6 +41,51 @@ function defaultLineHandler(_line) {
     return;
   }
 
+  // 멀티라인 입력 중이면 명령어 체크를 건너뛰고 멀티라인 처리만 수행
+  const isMultilineInput = getIsMultilineInput();
+  
+  if (isMultilineInput) {
+    // 멀티라인 입력 중에는 명령어 체크를 하지 않고 멀티라인 처리만 수행
+    const multilineResult = _checkMultilineComplete(_line);
+    
+    if (multilineResult.error) {
+      rl.setPrompt(_prompt());
+      rl.prompt();
+      return;
+    }
+    
+    if (!multilineResult.complete) {
+      rl.setPrompt('... ');
+      rl.prompt();
+      return;
+    }
+    
+    // 완성된 멀티라인 처리
+    let completeLine = multilineResult.line;
+    let originalMultiline = multilineResult.originalMultiline || completeLine;
+    if (completeLine === null) {
+      rl.setPrompt(_prompt());
+      rl.prompt();
+      return;
+    }
+    
+    const semicolonIndex = completeLine.indexOf(';');
+    if (semicolonIndex > -1) {
+      completeLine = completeLine.substring(0, semicolonIndex).trim();
+    }
+    
+    const isMultiline = originalMultiline.includes('\n');
+    _addToHistory(isMultiline ? originalMultiline : (completeLine + ';'), isMultiline);
+    _resetHistoryIndex();
+    
+    const completeTokens = parseLine(completeLine);
+    _do(completeTokens, completeLine).then(() => {
+      rl.setPrompt(_prompt());
+      rl.prompt();
+    });
+    return;
+  }
+
   const inputTokens = parseLine(_line);
 
   // curl 명령어는 멀티라인 입력 지원 (특별 처리)

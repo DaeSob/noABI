@@ -103,36 +103,80 @@ async function _commandCurl(_inputTokens, _line) {
     }
   }
 
-  // 데이터 파싱 (-d 옵션, 따옴표 처리)
+  // 데이터 파싱 (-d 옵션, 따옴표 처리, 멀티라인 지원)
   let postData = null;
-  const dataRegex = /-d\s+(["'])([\s\S]*?)\1|-d\s+([^\s]+)/;
-  const dataMatch = commandLine.match(dataRegex);
-  if (dataMatch) {
-    // 따옴표로 감싸진 경우
-    if (dataMatch[2] !== undefined) {
-      postData = dataMatch[2];
-    } 
-    // 따옴표 없이 공백으로 구분된 경우
-    else if (dataMatch[3] !== undefined) {
-      postData = dataMatch[3];
+  const dataOptionIndex = commandLine.indexOf('-d');
+  if (dataOptionIndex !== -1) {
+    // -d 옵션 뒤의 내용 추출
+    let dataPart = commandLine.substring(dataOptionIndex + 2).trim();
+    
+    // => 연산자가 있으면 그 전까지만
+    const arrowIndex = dataPart.indexOf('=>');
+    if (arrowIndex > -1) {
+      dataPart = dataPart.substring(0, arrowIndex).trim();
     }
     
-    if (postData) {
-      // 변수 파싱
-      try {
-        const parsedData = _parseKeyValue(postData);
-        if (typeof parsedData === 'object') {
-          postData = JSON.stringify(parsedData);
-        } else {
-          postData = String(parsedData);
+    // 세미콜론 제거
+    dataPart = dataPart.replace(/;\s*$/, '').trim();
+    
+    if (dataPart.length > 0) {
+      // 따옴표로 시작하는지 확인
+      const firstChar = dataPart[0];
+      if (firstChar === '"' || firstChar === "'") {
+        // 따옴표로 감싸진 경우: 대응하는 닫는 따옴표 찾기
+        let quoteEndIndex = -1;
+        let escape = false;
+        for (let i = 1; i < dataPart.length; i++) {
+          if (escape) {
+            escape = false;
+            continue;
+          }
+          if (dataPart[i] === '\\') {
+            escape = true;
+            continue;
+          }
+          if (dataPart[i] === firstChar) {
+            quoteEndIndex = i;
+            break;
+          }
         }
-      } catch (e) {
-        // 변수가 없으면 원본 사용
+        
+        if (quoteEndIndex > 0) {
+          // 따옴표 안의 내용 추출
+          postData = dataPart.substring(1, quoteEndIndex);
+        } else {
+          // 닫는 따옴표를 찾지 못한 경우 (멀티라인 처리 중일 수 있음)
+          // 전체를 데이터로 사용
+          postData = dataPart.substring(1);
+        }
+      } else {
+        // 따옴표 없이 공백으로 구분된 경우
+        // 첫 번째 공백 또는 => 전까지
+        const spaceIndex = dataPart.indexOf(' ');
+        if (spaceIndex > 0) {
+          postData = dataPart.substring(0, spaceIndex);
+        } else {
+          postData = dataPart;
+        }
       }
       
-      // Content-Type이 없으면 기본값 설정
-      if (!headers['Content-Type'] && !headers['content-type']) {
-        headers['Content-Type'] = 'application/json';
+      if (postData) {
+        // 변수 파싱
+        try {
+          const parsedData = _parseKeyValue(postData);
+          if (typeof parsedData === 'object') {
+            postData = JSON.stringify(parsedData);
+          } else {
+            postData = String(parsedData);
+          }
+        } catch (e) {
+          // 변수가 없으면 원본 사용
+        }
+        
+        // Content-Type이 없으면 기본값 설정
+        if (!headers['Content-Type'] && !headers['content-type']) {
+          headers['Content-Type'] = 'application/json';
+        }
       }
     }
   }

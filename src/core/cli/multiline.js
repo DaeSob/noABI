@@ -117,6 +117,17 @@ function _checkMultilineComplete(_line) {
       const isCurlCommand = multilineBuffer.trim().toLowerCase().startsWith('curl');
       if (isCurlCommand && lineToAdd.startsWith('/')) {
         setMultilineBuffer(multilineBuffer + lineToAdd);
+      } else if (isCurlCommand) {
+        // curl 명령어의 경우, JSON 데이터나 헤더는 줄바꿈 보존
+        // -d 옵션이 있거나 -H 옵션이 있으면 줄바꿈 보존
+        const hasDataOption = multilineBuffer.includes('-d') || lineToAdd.includes('-d');
+        const hasHeaderOption = multilineBuffer.includes('-H') || lineToAdd.includes('-H');
+        if (hasDataOption || hasHeaderOption || inString.single || inString.double) {
+          // JSON 데이터나 헤더는 줄바꿈 보존
+          setMultilineBuffer(multilineBuffer + '\n' + lineToAdd);
+        } else {
+          setMultilineBuffer(multilineBuffer + ' ' + lineToAdd);
+        }
       } else {
         // .then() 블록 내부의 경우 줄바꿈 보존 (JavaScript 코드이므로)
         // 버퍼에 .then(이 포함되어 있거나, 중괄호가 열려있으면 줄바꿈 보존
@@ -150,11 +161,15 @@ function _checkMultilineComplete(_line) {
     if (semicolonIndex > -1) {
       completeLine = completeLine.substring(0, semicolonIndex).trim();
     }
-    // 멀티라인으로 합쳐진 불필요한 공백 정리
-    // 괄호와 점 사이의 공백 제거: ") ." -> ")."
-    completeLine = completeLine.replace(/\s*\)\s*\./g, ').');
-    // 점과 함수명 사이의 공백 제거: ". functionName" -> ".functionName"
-    completeLine = completeLine.replace(/\.\s+([a-zA-Z_$][a-zA-Z0-9_$]*)\s*\(/g, '.$1(');
+    // curl 명령어의 경우 줄바꿈 보존 (JSON 데이터나 헤더를 위해)
+    const isCurlCommand = completeLine.trim().toLowerCase().startsWith('curl');
+    if (!isCurlCommand) {
+      // 멀티라인으로 합쳐진 불필요한 공백 정리 (curl이 아닌 경우만)
+      // 괄호와 점 사이의 공백 제거: ") ." -> ")."
+      completeLine = completeLine.replace(/\s*\)\s*\./g, ').');
+      // 점과 함수명 사이의 공백 제거: ". functionName" -> ".functionName"
+      completeLine = completeLine.replace(/\.\s+([a-zA-Z_$][a-zA-Z0-9_$]*)\s*\(/g, '.$1(');
+    }
 
     // 멀티라인 원본도 준비 (history용) - 세미콜론 포함
     const originalLines = getMultilineOriginalLines();

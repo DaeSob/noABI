@@ -1,0 +1,15 @@
+#####################################################
+#
+#	Event Logger
+#
+#
+#
+#
+#####################################################
+
+#####################################################
+#Section: solidity-interfaces
+interfaces:  
+  ERC20:
+    - "event Transfer(address indexed from, address indexed to, uint256 value)"
+    

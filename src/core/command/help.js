@@ -203,6 +203,33 @@ async function _commandHelp(_inputTokens) {
   printGray("                                     exam)curl GET ${apiUrl} => response");
   console.log("");
 
+  printBlue("  event");
+  printDefault("    Query event logs from local files.");
+  printDefault("    event -load <source> [--block <num> | --fromBlock <num> --toBlock <num>]");
+  printDefault("         [--contractName <name>] [--contractAddress <addr>] [--eventName <name>]");
+  printDefault("         [--txHash <hash>] [--logIndex <num>] [=> <variable>]");
+  // 상세 설명
+  printDefault("        -load                         (required) Flag to enable event loading.");
+  printDefault("        <source>                      (required) Event source directory path.");
+  printDefault("        --block <num>                 (optional) Single block number.");
+  printDefault("        --fromBlock <num>             (optional) Start block number (use with --toBlock).");
+  printDefault("        --toBlock <num>               (optional) End block number (use with --fromBlock).");
+  printDefault("        --contractName <name>         (optional) Filter by contract name.");
+  printDefault("        --contractAddress <addr>      (optional) Filter by contract address.");
+  printDefault("        --eventName <name>            (optional) Filter by event name.");
+  printDefault("        --txHash <hash>               (optional) Filter by transaction hash.");
+  printDefault("        --logIndex <num>              (optional) Filter by log index.");
+  printDefault("        => <variable>                 (optional) Save results into variable (always array).");
+  printDefault("    Note: --block and (--fromBlock/--toBlock) cannot be used together.");
+  printDefault("          All filter options use AND condition.");
+  printDefault("          Option values support ${variable} syntax.");
+  printGray("                                     exam)event -load C:/workspace/log/event --block 181816793 => events");
+  printGray("                                     exam)event -load --block 181816793 C:/workspace/log/event => events");
+  printGray("                                     exam)event -load C:/workspace/log/event --block ${blockNumber} => events");
+  printGray("                                     exam)event -load C:/workspace/log/event --fromBlock 181816790 --toBlock 181816793 => events");
+  printGray("                                     exam)event -load C:/workspace/log/event --block 181816793 --contractName DAO --eventName eventApproval => events");
+  console.log("");
+
   printBlue("  snapshot");
   printDefault("    Create, revert, or list blockchain state snapshots (ganache-cli/anvil).");
   printDefault("    snapshot (--name <snapshot_name> | --revert <name_or_id> | -list)");

@@ -387,6 +387,6 @@ noABI와 주요 스마트 컨트랙트 개발/테스트 도구들의 장단점�
 ---
 
 **문서 네비게이션**  
-[← 이전: Optional Modules](optionalModules.md) | [다음: README →](../README.md)  
+[← 이전: Plugins](plugins.md) | [다음: README →](../README.md)  
 [↑ 목차로 돌아가기](../README.md)
 

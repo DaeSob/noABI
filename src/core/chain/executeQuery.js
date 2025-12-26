@@ -436,7 +436,7 @@ const vm = require('vm');
 
         } else {
           try {
-            let res = await _ethInvoke(
+            let receipt = await _ethInvoke(
               rpcUrl,
               wallet,
               queryTokenized.to,
@@ -444,16 +444,54 @@ const vm = require('vm');
               queryTokenized.value
             );
 
-            if( res.gasUsed !== undefined ) {
-              res.gasUsed = parseInt(res.gasUsed, 16 )
+            if( receipt.gasUsed !== undefined ) {
+              receipt.gasUsed = parseInt(receipt.gasUsed, 16 )
             }
-            if( res.cumulativeGasUsed !== undefined ) {
-              res.cumulativeGasUsed = parseInt(res.cumulativeGasUsed, 16 )
+            if( receipt.cumulativeGasUsed !== undefined ) {
+              receipt.cumulativeGasUsed = parseInt(receipt.cumulativeGasUsed, 16 )
             }
-            //console.log( res );
-            textColor
-            console.log("status:", ( (res.status === '0x1') ? textColor.success : textColor.error) + res.status + textColor.white);
-            console.log("txHash:", res.transactionHash );
+
+            // receipt에서 필요한 필드만 추출
+            const receiptSummary = {
+              transactionHash: receipt.transactionHash,
+              transactionIndex: receipt.transactionIndex,
+              blockNumber: receipt.blockNumber,
+              from: receipt.from,
+              to: receipt.to,
+              gasUsed: receipt.gasUsed,
+              status: receipt.status,
+              logs: receipt.logs
+            };
+
+            // .then() 블록이 있는지 확인 (funcReturns가 있고 funcArg가 있으면 .then() 블록 존재)
+            const hasThenBlock = queryTokenized.funcReturns !== undefined && 
+                                  queryTokenized.funcReturns.length > 0 &&
+                                  queryTokenized.funcReturns[0].funcArg !== undefined;
+            
+            // .then() 블록이 없을 때만 결과 출력
+            if (!hasThenBlock) {
+              textColor
+              console.log(receipt)
+            }
+
+            // .then() 블록 처리
+            if( queryTokenized.funcReturns !== undefined ) {
+              if( queryTokenized.funcReturns.length > 0 ) {
+                const funcReturn = queryTokenized.funcReturns[0];
+                
+                // funcArg가 있으면 varStore에 저장 (funcBody 유무와 관계없이)
+                // funcArg는 사용자가 지정한 변수명 (예: res, myReceipt 등)
+                if (funcReturn.funcArg) {
+                  varStore[funcReturn.funcArg] = receiptSummary;
+                }
+                
+                // funcBody가 있으면 Node.js에서 실행
+                // funcArg를 변수명으로 사용하여 context에 전달
+                if (funcReturn.funcBody !== undefined && funcReturn.funcBody.trim() !== '') {
+                  _executeNodeJsBlock(funcReturn.funcBody, receiptSummary, global.varStore, funcReturn.funcArg);
+                }
+              }
+            }
           } catch (invokeError) {
             // .catch() 블록이 있는지 확인
             const hasCatchBlock = queryTokenized.funcCatch !== undefined && 

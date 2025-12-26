@@ -3,7 +3,7 @@
 const knownCommands = ['show', 'ls', 'use', 'cd', 'import', 'export', 'set', 'deploy', 'compose', 
                        'memory', 'mem', 'help', 'version', 'whoami', 'sh', 'run', 'current', 
                        'toUtc', 'getBalance', 'estimateGas', 
-                       'abi', 'keystore', 'curl', 'echo', 'snapshot'];
+                       'abi', 'keystore', 'curl', 'echo', 'snapshot', 'event'];
 
 module.exports.knownCommands = knownCommands;
 

@@ -88,10 +88,11 @@ function defaultLineHandler(_line) {
 
   const inputTokens = parseLine(_line);
 
-  // curl 명령어는 멀티라인 입력 지원 (특별 처리)
-  const isCurlCommand = inputTokens.length > 0 && inputTokens[0] === 'curl';
+  // curl, event 명령어는 멀티라인 입력 지원 (특별 처리)
+  const isMultilineCommand = inputTokens.length > 0 && 
+    (inputTokens[0] === 'curl' || inputTokens[0] === 'event');
 
-  if (isCurlCommand) {
+  if (isMultilineCommand) {
     // curl 명령어는 멀티라인 처리
     const multilineResult = _checkMultilineComplete(_line);
 

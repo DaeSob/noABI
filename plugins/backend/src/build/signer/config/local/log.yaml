@@ -1,0 +1,33 @@
+#####################################################
+#
+#	noABI Plugin
+#
+#
+#
+#																			
+#
+#####################################################
+
+#####################################################
+#Section: logs
+logs:
+  initialize:
+    path: c:/data/logs/noAbi/pulgins/singer/initialize
+    debug: false
+    level: 0
+    rotacnt: 10
+    rotafreq: 86400   
+  access:
+    path: c:/data/logs/noAbi/pulgins/singer
+    debug: false
+    level: 0
+    rotacnt: 10
+    rotafreq: 86400
+  trace:
+    path: c:/data/logs/noAbi/pulgins/singer
+    debug: true
+    level: 99
+    rotacnt: 5
+    rotafreq: 86400
+
+

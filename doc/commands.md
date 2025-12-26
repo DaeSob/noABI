@@ -18,6 +18,7 @@ CLI에서 사용 가능한 명령어와 옵션, 예시를 정리합니다.
 | `toUtc`      | 날짜/시간 변환                      |
 | `getBalance` | 계정 잔액 조회                      |
 | `curl`       | HTTP API 호출 (멀티라인 가능)         |
+| `event`      | Event Log 조회 (멀티라인 가능)        |
 | `echo`       | 변수 또는 메시지 출력                  |
 | `sleep`      | 지정 시간만큼 대기                    |
 
@@ -437,7 +438,102 @@ curl <GET|POST|PUT|DELETE|PATCH> <url> [-H <header>] [-d <data>] [=> <variable>]
 ---
 </details>
 
+<details>
+<summary>event 명령어</summary>
+로컬 파일에서 Event Log를 조회하고 필터링하는 명령입니다.   
+이전 트랜잭션의 이벤트 결과를 다음 트랜잭션 입력 및 조회 용으로 사용하기 위해 활용됩니다.
+
+**사용 형식**
+```bash
+event -load <source> [--block <num> | --fromBlock <num> --toBlock <num>]
+       [--contractName <name>] [--contractAddress <addr>] [--eventName <name>]
+       [--txHash <hash>] [--logIndex <num>] [=> <variable>]
+```
+옵션 설명:
+- -load
+  Event Log 조회 활성화 플래그 (필수)
+- source
+  Event Log 파일이 저장된 디렉토리 경로 (필수)
+- --block num
+  단일 블록 번호 지정
+- --fromBlock num / --toBlock num
+  블록 범위 지정 (둘 다 필요)
+- --contractName name
+  컨트랙트 이름으로 필터링
+- --contractAddress addr
+  컨트랙트 주소로 필터링
+- --eventName name
+  이벤트 이름으로 필터링
+- --txHash hash
+  트랜잭션 해시로 필터링
+- --logIndex num
+  로그 인덱스로 필터링
+- => variable
+  조회 결과를 memory 변수로 저장 (항상 배열)
+
+**주의사항**
+- `--block`과 `(--fromBlock/--toBlock)`은 동시에 사용할 수 없습니다.
+- 모든 필터 옵션은 AND 조건으로 적용됩니다.
+- 옵션 값에는 `${variable}` 형식의 변수를 사용할 수 있습니다.
+- 결과는 항상 배열 형식으로 저장됩니다 (이벤트가 없으면 빈 배열 `[]`).
+
+**예시**
+1. 단일 블록의 이벤트 조회
+    ```bash
+    event -load C:/workspace/log/event --block 181816793 => events
+    ```
+
+2. 멀티라인으로 여러 필터 적용
+    ```bash
+    event -load C:/workspace/log/event
+      --block 181816793
+      --contractName DAO
+      --eventName eventApproval
+      => events;
+    ```
+
+3. 블록 범위로 조회
+    ```bash
+    event -load C:/workspace/log/event --fromBlock 181816790 --toBlock 181816793 => events
+    ```
+
+4. 변수 사용
+    ```bash
+    set --var {"blockNumber": "181816793", "eventPath": "C:/workspace/log/event"}
+    event -load ${eventPath} --block ${blockNumber} => events
+    ```
+
+5. 조회 결과 활용
+    ```bash
+    event -load C:/workspace/log/event --block 181816793 => events
+    echo "Found ${events.length} events"
+    echo "First event docId: ${events[0].decoded.docId}"
+    ```
+
+**Event Summary 구조**
+조회된 이벤트는 다음 구조로 저장됩니다:
+```json
+{
+  "blockNumber": "181816793",
+  "blockHash": "...",
+  "transactionHash": "...",
+  "transactionIndex": "2",
+  "logIndex": "3",
+  "contractName": "DAO",
+  "contractAddress": "0xd0a5...",
+  "eventName": "eventApproval",
+  "decoded": {
+    "approvor": "0xfc66...",
+    "docId": "4",
+    "invokable": true
+  }
+}
+```
+
+---
+</details>
+
 ---
 **문서 네비게이션**  
-[← 이전: DSL Sample](dslSample.md) | [다음: Optional Modules →](optionalModules.md)  
+[← 이전: DSL Sample](dslSample.md) | [다음: Plugins →](plugins.md)  
 [↑ 목차로 돌아가기](../README.md)

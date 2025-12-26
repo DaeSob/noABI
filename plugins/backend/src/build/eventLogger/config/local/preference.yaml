@@ -1,0 +1,24 @@
+#####################################################
+#
+#	Event Logger
+#
+#
+#
+#####################################################
+
+#####################################################
+#Section: import
+import:
+  - "file://../../../artifacts/imports/interfaces/solidity-interfaces.yaml"  
+  - "file://../../../artifacts/imports/local/eventLogger.yaml"   
+
+#####################################################
+#Section: server
+server:
+  host: 0.0.0.0:8080
+  debug: true
+
+#####################################################
+#Section: authorization
+authorization:
+  enable: false

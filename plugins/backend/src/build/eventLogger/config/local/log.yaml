@@ -1,0 +1,40 @@
+#####################################################
+#
+#	Event Logger
+#
+#
+#
+#																			2024.03.08
+#
+#####################################################
+
+#####################################################
+#Section: logs
+logs:
+  initialize:
+    path: c:/data/logs/noAbi/pulgins/eventLogger/initialize
+    debug: false
+    level: 0
+    rotacnt: 10
+    rotafreq: 86400    
+  access:
+    path: c:/data/logs/noAbi/pulgins/eventLogger
+    debug: false
+    level: 0
+    rotacnt: 10
+    rotafreq: 86400
+  trace:
+    path: c:/data/logs/noAbi/pulgins/eventLogger
+    debug: true
+    level: 99
+    rotacnt: 5
+    rotafreq: 86400
+  block:
+    path: c:/data/logs/noAbi/pulgins/eventLogger/block
+    debug: true
+    level: 99
+    rotacnt: 30
+    rotafreq: 86400       
+
+
+

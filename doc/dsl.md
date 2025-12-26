@@ -9,7 +9,7 @@ noABI DSL은 스마트 컨트랙트 배포, ABI 관리, Contract Call 테스트�
 ***1 Statement = 1 Line 구조***
 - 일반 명령어는 반드시 한 줄로 작성
 - 줄바꿈 불가, 멀티라인 금지
-- 예외: curl과 Contract Call만 멀티라인 허용
+- 예외: curl, event와 Contract Call만 멀티라인 허용
 
 **✅ 올바른 예시**
 ```bash
@@ -43,6 +43,27 @@ curl http://localhost:8080/management/health/ping;
 **❌ 잘못된 예시**
 ```bash
 curl http://localhost:8080/management/health/ping
+```
+
+---
+event 명령 멀티라인 규칙
+여러 옵션을 명확하게 구분하기 위해 멀티라인 허용
+명령 종료 시 반드시 세미콜론(;) 포함
+
+**✅ 올바른 예시**
+```bash
+event -load C:/workspace/log/event
+  --block 181816793
+  --contractName DAO
+  --eventName eventApproval
+  => events;
+
+event -load C:/workspace/log/event --block 181816793 => events;
+```
+
+**❌ 잘못된 예시**
+```bash
+event -load C:/workspace/log/event --block 181816793
 ```
 
 ---
@@ -369,7 +390,7 @@ echo "${res}"
 # EIP712 Signatrue 요청 과 사용 방법 예시
 ```bash
 # Back-End로 EIP712 Signature 요청
-curl POST http://127.0.0.1:8080/man/v3/dataSign/eip712
+curl POST http://127.0.0.1:8080/v1/sign/eip712
   -H "Content-Type: application/json"
   -d '{
     "requestId": "req-1234",

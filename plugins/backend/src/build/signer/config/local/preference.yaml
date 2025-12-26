@@ -1,0 +1,24 @@
+#####################################################
+#
+#	Management API Preference V2
+#                   
+#
+#
+#
+#####################################################
+
+#####################################################
+#Section: import
+import:
+  - "file://../../../artifacts/imports/common/rpc.yaml"         
+  
+#####################################################
+#Section: server
+server:
+  host: 0.0.0.0:8080
+  debug: true
+
+#####################################################
+#Section: Keystore
+keystore:
+  path: "../../../artifacts/keystore/local"    

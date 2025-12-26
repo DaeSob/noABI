@@ -99,7 +99,7 @@ Ethereum Solidity Language for Visual Studio Code by    Juan Blanco
 
 ### 고급 기능
 - [Compose and Deploy Flow](doc/composeNdeploy.md) - 배포 전체 흐름
-- [Optional Modules](doc/optionalModules.md) - 선택적 모듈
+- [Plugins](doc/plugins.md) - 플러그인
 
 
 --- 

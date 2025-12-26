@@ -113,8 +113,11 @@ function _checkMultilineComplete(_line) {
     }
 
     if (multilineBuffer.length > 0) {
-      // curl 명령어의 경우, URL 경로가 슬래시로 시작하면 공백 없이 연결
+      // curl, event 명령어의 경우, URL 경로가 슬래시로 시작하면 공백 없이 연결
       const isCurlCommand = multilineBuffer.trim().toLowerCase().startsWith('curl');
+      const isEventCommand = multilineBuffer.trim().toLowerCase().startsWith('event');
+      const isMultilineCommand = isCurlCommand || isEventCommand;
+      
       if (isCurlCommand && lineToAdd.startsWith('/')) {
         setMultilineBuffer(multilineBuffer + lineToAdd);
       } else if (isCurlCommand) {
@@ -128,6 +131,9 @@ function _checkMultilineComplete(_line) {
         } else {
           setMultilineBuffer(multilineBuffer + ' ' + lineToAdd);
         }
+      } else if (isEventCommand) {
+        // event 명령어의 경우, 옵션들은 줄바꿈 보존
+        setMultilineBuffer(multilineBuffer + '\n' + lineToAdd);
       } else {
         // .then() 블록 내부의 경우 줄바꿈 보존 (JavaScript 코드이므로)
         // 버퍼에 .then(이 포함되어 있거나, 중괄호가 열려있으면 줄바꿈 보존
@@ -161,9 +167,12 @@ function _checkMultilineComplete(_line) {
     if (semicolonIndex > -1) {
       completeLine = completeLine.substring(0, semicolonIndex).trim();
     }
-    // curl 명령어의 경우 줄바꿈 보존 (JSON 데이터나 헤더를 위해)
+    // curl, event 명령어의 경우 줄바꿈 보존
     const isCurlCommand = completeLine.trim().toLowerCase().startsWith('curl');
-    if (!isCurlCommand) {
+    const isEventCommand = completeLine.trim().toLowerCase().startsWith('event');
+    const isMultilineCommand = isCurlCommand || isEventCommand;
+    
+    if (!isMultilineCommand) {
       // 멀티라인으로 합쳐진 불필요한 공백 정리 (curl이 아닌 경우만)
       // 괄호와 점 사이의 공백 제거: ") ." -> ")."
       completeLine = completeLine.replace(/\s*\)\s*\./g, ').');

@@ -12,7 +12,7 @@ compose ./examples/sample-2-eip712/compose-files/compose_eip712.json
 deploy ./examples/sample-2-eip712/compose-files/compose_eip712.json
 
 # 백엔드 API를 통한 EIP-712 서명 요청
-curl POST http://127.0.0.1:8080/man/v3/dataSign/eip712
+curl POST http://127.0.0.1:8080/v1/sign/eip712
   -H "Content-Type: application/json"
   -d '{
         "requestId": "req-1234",

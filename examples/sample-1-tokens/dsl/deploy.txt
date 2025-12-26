@@ -38,6 +38,8 @@ tokens.CERC20("${noAbitAddress}").totalSupply()
     totalSupply=>{}
 );
 
+tokens.CERC20("${noAbitAddress}").transfer("0xfc662E967D2054973B3982Bc3AE82fC40A168034", "1000000").then(res=>{});
+
 echo "----------------------------------------------------"
 echo "noAbi Address: ${noAbitAddress}"
 echo "name: ${name}"

@@ -19,6 +19,7 @@ const { _commandKeystore } = require('../command/keyStore.js');
 const { _commandSnapshot } = require('../command/snapshot.js');
 const { _commandEcho, _mapEchoVariables } = require('../command/echo.js');
 const { _commandCurl } = require('../command/curl.js');
+const { _commandEvent } = require('../command/event.js');
 const { _query } = require('../chain/executeQuery.js');
 const { _commandTest } = require('../command/test.js');
 
@@ -116,6 +117,11 @@ async function _do(_inputTokens, _line) {
       case 'curl':
         {
           await _commandCurl(_inputTokens, _line);
+        }
+        break;
+      case 'event':
+        {
+          await _commandEvent(_inputTokens, _line);
         }
         break;
       case 'test':

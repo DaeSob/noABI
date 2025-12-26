@@ -4,6 +4,7 @@ const { _getParseInput } = require('./common/currentPath.js');
 const { _commandSet } = require('./set.js');
 const { _commandUse } = require('./use.js');
 const { _commandCurl } = require('./curl.js');
+const { _commandEvent } = require('./event.js');
 const { _commandCompose } = require('./compose.js');
 const { _commandDeploy } = require('./deploy.js');
 const { _commandImport } = require('./import.js');
@@ -129,6 +130,11 @@ async function _commandSh(_inputTokens) {
           case "curl":
           {
             await _commandCurl(_inputTokens, line);
+          }
+          break;
+          case "event":
+          {
+            await _commandEvent(_inputTokens, line);
           }
           break;
           case 'echo':

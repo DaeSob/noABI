@@ -1,0 +1,39 @@
+#####################################################
+#
+#	Event Logger
+#
+#
+#
+#
+#####################################################
+
+#####################################################
+#Section: event logger
+event-logger:
+  version: "V2.0.0"
+  chains:
+    - "local"
+  "local":
+    mode: live  
+    chainId: "0x539"
+    rpc: http://127.0.0.1:8545
+    db: http://127.0.0.1:15000/dc/v1/documents/queries/op
+    path: "c:/data/eventLogger/event"
+    commitBlockCount: 0
+    period: 5
+    logRange: 10000
+    collections: 
+      ERC20: 
+        address: "0xa992e822040fbff8392ba3248bd7de55da77ecb9"
+        enable: true
+        interface: "ERC20"           
+    collectors:
+      sample:
+        startBlockNumber: 0
+        collections: 
+          - ERC20
+    actors:
+      actor1:
+        collectors: 
+          - sample       
+  
